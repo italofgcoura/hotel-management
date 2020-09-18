@@ -1,0 +1,62 @@
+CREATE DATABASE IF NOT EXISTS hotelDatabase;
+
+USE hotelDatabase;
+
+CREATE TABLE IF NOT EXISTS funcionario(
+      funcionarioID int NOT NULL AUTO_INCREMENT,
+      funcionarioNome varchar(50) NOT NULL,
+      funcionarioNascimento datetime NOT NULL,
+      funcionarioEmergencia int NOT NULL,
+      funcionarioEntrada datetime NOT NULL,
+      funcionarioSaida datetime,
+      funcionarioUser varchar(20) NOT NULL,
+      funcionarioPassword varchar(20) NOT NULL,
+      funcionarioAdmin bool,
+      primary key(funcionarioID)
+);
+
+CREATE TABLE IF NOT EXISTS funcionarioEndereco(
+		enderecoID int NOT NULL auto_increment,
+		rua varchar(20) NOT NULL,
+        bairro varchar(20) NOT NULL,
+        cidade varchar(20) NOT NULL,
+        numero tinyint NOT NULL,
+        pais varchar(20) NOT NULL,
+        foreign key(enderecoID) REFERENCES funcionario(funcionarioID),
+        primary key(enderecoID)
+);
+      
+CREATE TABLE IF NOT EXISTS cliente(
+      clienteID int NOT NULL AUTO_INCREMENT,
+      clienteNascimento datetime NOT NULL,
+      clienteEmergencia int NOT NULL,
+      clienteEntrada datetime NOT NULL,
+      clienteSaida datetime,
+      foreign key(clienteID) REFERENCES funcionario(funcionarioID)
+      foreign key (clienteID) REFERENCES quarto(quartoID),
+);
+
+CREATE TABLE IF NOT EXISTS clienteEndereco(
+		enderecoClienteID int NOT NULL auto_increment,
+        rua varchar(20) NOT NULL,
+        bairro varchar(20) NOT NULL,
+        cidade varchar(20) NOT NULL,
+        numero tinyint NOT NULL,
+        pais varchar(20) NOT NULL,
+        foreign key(enderecoClienteID) REFERENCES funcionario(funcionarioID),
+        primary key(enderecoClienteID)
+);
+
+CREATE TABLE IF NOT EXISTS userAdmin(
+		adminID int NOT NULL auto_increment,
+        adminUser varchar(20) NOT NULL,
+        foreign key (adminID) REFERENCES funcionario(funcionarioID),
+        primary key(adminID)
+);
+
+CREATE TABLE IF NOT EXISTS quarto(
+		quartoID int NOT NULL auto_increment,
+        quartoNumero tinyint NOT NULL,
+        quartoDisponivel bool NOT NULL,
+        primary key(quartoID)
+)
